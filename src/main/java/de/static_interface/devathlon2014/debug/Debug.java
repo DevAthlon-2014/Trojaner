@@ -17,7 +17,7 @@
 
 package de.static_interface.devathlon2014.debug;
 
-import de.static_interface.devathlon2014.DevathlonPlugin;
+import de.static_interface.devathlon2014.SimpleEffects;
 
 import javax.annotation.Nullable;
 
@@ -54,7 +54,7 @@ public class Debug {
      * @param s Message to log
      */
     public static void log(String s) {
-        if (DevathlonPlugin.DEBUG) {
+        if (SimpleEffects.DEBUG) {
             return;
         }
         log("[Debug] " + getCallerCallerClassName() + ".class: " + s);
@@ -66,7 +66,7 @@ public class Debug {
      * @param tr Throwable you want to log
      */
     public static void log(String s, Throwable tr) {
-        if (DevathlonPlugin.DEBUG) {
+        if (SimpleEffects.DEBUG) {
             return;
         }
         log(s);

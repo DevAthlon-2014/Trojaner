@@ -18,16 +18,17 @@
 package de.static_interface.devathlon2014;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import de.static_interface.devathlon2014.command.EffectsCommand;
 import de.static_interface.devathlon2014.debug.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class DevathlonPlugin extends JavaPlugin {
+public class SimpleEffects extends JavaPlugin {
 
     public static final boolean DEBUG = true;
 
-    private static DevathlonPlugin instance;
+    private static SimpleEffects instance;
 
     public void onEnable() {
         if(!validateDependencies()) {
@@ -37,7 +38,12 @@ public class DevathlonPlugin extends JavaPlugin {
         instance = this;
 
         registerListeners();
+        registerEffects();
         registerCommands();
+    }
+
+    private void registerEffects() {
+        Debug.log("registerEffects()");
     }
 
     private void registerListeners() {
@@ -47,7 +53,7 @@ public class DevathlonPlugin extends JavaPlugin {
 
     private void registerCommands() {
         Debug.log("registerCommands()");
-
+        Bukkit.getPluginCommand("simpleeffects").setExecutor(new EffectsCommand(this));
     }
 
     private boolean validateDependencies() {
@@ -67,7 +73,7 @@ public class DevathlonPlugin extends JavaPlugin {
      * @return Instance of this plugin
      * @throws IllegalStateException If the plugin is not initialized
      */
-    public static DevathlonPlugin getInstance() {
+    public static SimpleEffects getInstance() {
         if(instance == null) {
             throw new IllegalStateException("Plugin is not initialized!");
         }

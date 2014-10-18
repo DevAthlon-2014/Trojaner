@@ -9,9 +9,9 @@ soft-depend: [ProtocolLib] # Soft depend so we can check for this plugin manuall
 commands:
   seffects:
     description: Description
-    usage: "Wrong usage! Correct Usage: /<command> <usage>"
+    usage: "Wrong usage! Correct Usage: /<command> <effectname> <args>"
     aliases: [effects, se]
-    #Todo: permission: pluginname.somepermissionshere
+    #Todo: permission: simpleeffects.somepermissionshere
 
 permissions:
 #Todo
