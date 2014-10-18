@@ -1,0 +1,17 @@
+name: SimpleEffects
+version: ${project.version}
+description: Plugin for devathlon
+author: Trojaner
+website: http://adventuria.eu
+main: de.static_interface.devathlon2014.PluginMain
+soft-depend: [ProtocolLib] # Soft depend so we can check for this plugin manually and print a more user friendly message than bukkit does
+
+commands:
+  seffects:
+    description: Description
+    usage: "Wrong usage! Correct Usage: /<command> <usage>"
+    aliases: [effects, se]
+    #Todo: permission: pluginname.somepermissionshere
+
+permissions:
+#Todo
