@@ -17,8 +17,13 @@
 
 package de.static_interface.simpleeffects.effect;
 
+import com.comphenix.packetwrapper.AbstractPacket;
+import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import de.static_interface.simpleeffects.SimpleEffects;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public abstract class Effect {
 
@@ -35,4 +40,25 @@ public abstract class Effect {
     public abstract String getUsage();
 
     public abstract boolean startEffect(Player player, String[] args, SimpleEffects plugin);
+
+    private final Vector zeroVector = new Vector(0,0,0);
+    protected WrapperPlayServerWorldParticles generateEffectPacket(WrapperPlayServerWorldParticles.ParticleEffect effect, Location loc)
+    {
+        WrapperPlayServerWorldParticles packet = new WrapperPlayServerWorldParticles();
+        packet.setLocation(loc);
+        packet.setOffset(zeroVector);
+        packet.setNumberOfParticles(1);
+        return packet;
+    }
+
+    private void sendPacket(Player player, AbstractPacket packet)
+    {
+        packet.sendPacket(player);
+    }
+
+    protected void sendPacket(AbstractPacket packet) {
+        for(Player player: Bukkit.getOnlinePlayers()) {
+            sendPacket(player, packet);
+        }
+    }
 }

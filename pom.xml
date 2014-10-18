@@ -66,13 +66,18 @@
             <version>3.4.0</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- Doxygen Javadoc -->
         <dependency>
-            <groupId>com.pcl-solutions.maven.reports</groupId>
-            <artifactId>doxygen-maven-report</artifactId>
-            <version>1.0</version>
-            <type>maven-plugin</type>
+            <groupId>com.comphenix.packetwrapper</groupId>
+            <artifactId>PacketWrapper</artifactId>
+            <version>1.7.2-R0.5</version>
+        </dependency>
+
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.14.8</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

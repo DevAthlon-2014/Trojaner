@@ -17,10 +17,13 @@
 
 package de.static_interface.simpleeffects.effect;
 
+import static com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.*;
+
+import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import de.static_interface.simpleeffects.SimpleEffects;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class TestEffect extends Effect {
     public TestEffect() {
@@ -38,11 +41,11 @@ public class TestEffect extends Effect {
             return false;
         }
 
-        int radius;
+        int multi;
         int range;
 
         try {
-            radius = Integer.valueOf(args[0]);
+            multi= Integer.valueOf(args[0]);
             range = Integer.valueOf(args[1]);
         }
         catch(NumberFormatException ignored) {
@@ -53,14 +56,16 @@ public class TestEffect extends Effect {
         double playerY = player.getLocation().getY();
         double playerZ = player.getLocation().getZ();
 
-        for(int particlePosX = 0; particlePosX < range; particlePosX++) {
-            for(int particlePosZ = 0; particlePosZ < radius; particlePosZ++) {
-                World world = player.getWorld();
+        Location startLocation = player.getLocation();
+        Location endLocation = new Location(player.getWorld(), playerX + range, playerY, playerZ + multi);
 
-                Location loc = new Location(world, playerX + particlePosX, playerY, playerZ + particlePosZ);
-            }
+        Vector direction = endLocation.toVector().subtract(startLocation.toVector()).normalize().multiply(1);
+        for(double d = 0; d <= range; d += multi)
+        {
+            WrapperPlayServerWorldParticles particlePacket = generateEffectPacket(ParticleEffect.ANGRY_VILLAGER, startLocation);
+            sendPacket(particlePacket);
+            startLocation = startLocation.add(direction);
         }
-
         return true;
     }
 }

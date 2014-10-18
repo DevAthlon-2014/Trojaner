@@ -52,6 +52,8 @@ public class EffectsCommand implements CommandExecutor {
             return false;
         }
 
+        String alias = label.split(" ")[0];
+
         Player player = (Player)sender;
         String action = args[0];
 
@@ -70,19 +72,19 @@ public class EffectsCommand implements CommandExecutor {
 
         if(effect == null) {
             sendMessage(player, ChatColor.RED + "Unbekannter Effect oder Command: " + action);
-            sendMessage(player, ChatColor.GOLD + "Nutze /effect help für eine Liste der verfügbaren Befehle");
-            sendMessage(player, ChatColor.GOLD + "Nutze /effect listeffects für eine Liste der verfügbaren Effekte");
+            sendMessage(player, ChatColor.GOLD + "Nutze /" + alias  + " help für eine Liste der verfügbaren Befehle");
+            sendMessage(player, ChatColor.GOLD + "Nutze /" + alias + " listeffects für eine Liste der verfügbaren Effekte");
             return true;
         }
 
         if(!effect.startEffect(player, actionArgs, plugin)) {
-            sendMessage(player, "Wrong usage! Usage: /effect " + action + " " + effect.getUsage());
+            sendMessage(player, "Wrong usage! Usage: /" + alias + " " + action + " " + effect.getUsage());
         }
         return true;
     }
 
     private void sendMessage(Player player, String msg) {
-        player.sendMessage(CMD_PREFIX + msg);
+        player.sendMessage(CMD_PREFIX + " " + msg);
     }
 
     /**
