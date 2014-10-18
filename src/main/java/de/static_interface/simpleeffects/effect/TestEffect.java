@@ -17,7 +17,7 @@
 
 package de.static_interface.simpleeffects.effect;
 
-import static com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.*;
+import static com.comphenix.packetwrapper.WrapperPlayServerWorldParticles.ParticleEffect;
 
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import de.static_interface.simpleeffects.SimpleEffects;
@@ -32,7 +32,7 @@ public class TestEffect extends Effect {
 
     @Override
     public String getUsage() {
-        return "<radius> <range>";
+        return "<multi> <range>";
     }
 
     @Override
@@ -57,12 +57,13 @@ public class TestEffect extends Effect {
         double playerZ = player.getLocation().getZ();
 
         Location startLocation = player.getLocation();
-        Location endLocation = new Location(player.getWorld(), playerX + range, playerY, playerZ + multi);
+        Location endLocation = new Location(player.getWorld(), playerX + range, playerY, playerZ);
 
         Vector direction = endLocation.toVector().subtract(startLocation.toVector()).normalize().multiply(1);
+
         for(double d = 0; d <= range; d += multi)
         {
-            WrapperPlayServerWorldParticles particlePacket = generateEffectPacket(ParticleEffect.ANGRY_VILLAGER, startLocation);
+            WrapperPlayServerWorldParticles particlePacket = generateEffectPacket(ParticleEffect.EXPLODE, startLocation);
             sendPacket(particlePacket);
             startLocation = startLocation.add(direction);
         }

@@ -18,12 +18,14 @@
 package de.static_interface.simpleeffects.debug;
 
 import de.static_interface.simpleeffects.SimpleEffects;
+import org.bukkit.Bukkit;
 
 import javax.annotation.Nullable;
 
 /**
  * This class contains some debug features which won't affect the final release
  */
+@SuppressWarnings({"ConstantConditions", "PointlessBooleanExpression"})
 public class Debug {
     /**
      * @return The {@link Class} instance of the class calling the method calling this.
@@ -54,10 +56,10 @@ public class Debug {
      * @param s Message to log
      */
     public static void log(String s) {
-        if (SimpleEffects.DEBUG) {
+        if (!SimpleEffects.DEBUG) {
             return;
         }
-        log("[Debug] " + getCallerCallerClassName() + ".class: " + s);
+        Bukkit.getLogger().info("[Debug] " + getCallerCallerClassName().getName() + ".class: " + s);
     }
 
     /**
@@ -66,7 +68,7 @@ public class Debug {
      * @param tr Throwable you want to log
      */
     public static void log(String s, Throwable tr) {
-        if (SimpleEffects.DEBUG) {
+        if (!SimpleEffects.DEBUG) {
             return;
         }
         log(s);

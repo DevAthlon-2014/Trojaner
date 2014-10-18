@@ -20,6 +20,7 @@ package de.static_interface.simpleeffects.effect;
 import com.comphenix.packetwrapper.AbstractPacket;
 import com.comphenix.packetwrapper.WrapperPlayServerWorldParticles;
 import de.static_interface.simpleeffects.SimpleEffects;
+import de.static_interface.simpleeffects.debug.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -47,12 +48,13 @@ public abstract class Effect {
         WrapperPlayServerWorldParticles packet = new WrapperPlayServerWorldParticles();
         packet.setLocation(loc);
         packet.setOffset(zeroVector);
-        packet.setNumberOfParticles(1);
+        packet.setNumberOfParticles(5);
         return packet;
     }
 
     private void sendPacket(Player player, AbstractPacket packet)
     {
+        Debug.log("Sending " + packet.getClass().getSimpleName() + " to " + player.getName() );
         packet.sendPacket(player);
     }
 
