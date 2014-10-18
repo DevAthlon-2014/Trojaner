@@ -1,4 +1,5 @@
-de.static_interface.devathlon2014
-de.static_interface.devathlon2014.command
-de.static_interface.devathlon2014.debug
-de.static_interface.devathlon2014.effect
+de.static_interface.simpleeffects
+de.static_interface.simpleeffects.command.effects
+de.static_interface.simpleeffects.command.subcommand
+de.static_interface.simpleeffects.debug
+de.static_interface.simpleeffects.effect
