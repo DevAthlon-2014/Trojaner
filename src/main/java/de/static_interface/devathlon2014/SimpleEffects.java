@@ -18,7 +18,10 @@
 package de.static_interface.devathlon2014;
 
 import com.comphenix.protocol.ProtocolLibrary;
-import de.static_interface.devathlon2014.command.EffectsCommand;
+import de.static_interface.devathlon2014.command.effects.EffectsCommand;
+import de.static_interface.devathlon2014.command.effects.EffectsHelpSubCommand;
+import de.static_interface.devathlon2014.command.effects.EffectsListEffectsSubCommand;
+import de.static_interface.devathlon2014.command.subcommand.SubCommandHandler;
 import de.static_interface.devathlon2014.debug.Debug;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
@@ -29,6 +32,7 @@ public class SimpleEffects extends JavaPlugin {
     public static final boolean DEBUG = true;
 
     private static SimpleEffects instance;
+    private EffectsCommand effectsCommand;
 
     public void onEnable() {
         if(!validateDependencies()) {
@@ -53,7 +57,18 @@ public class SimpleEffects extends JavaPlugin {
 
     private void registerCommands() {
         Debug.log("registerCommands()");
-        Bukkit.getPluginCommand("simpleeffects").setExecutor(new EffectsCommand(this));
+
+        effectsCommand = new EffectsCommand(this);
+        Bukkit.getPluginCommand("simpleeffects").setExecutor(effectsCommand);
+        SubCommandHandler.registerSubCommand(effectsCommand, new EffectsHelpSubCommand());
+        SubCommandHandler.registerSubCommand(effectsCommand, new EffectsListEffectsSubCommand());
+    }
+
+    /**
+     * @return The {@link EffectsCommand} instance of the /simpleeffects command
+     */
+    public EffectsCommand getEffectsCommand() {
+        return effectsCommand;
     }
 
     private boolean validateDependencies() {
@@ -73,6 +88,7 @@ public class SimpleEffects extends JavaPlugin {
      * @return Instance of this plugin
      * @throws IllegalStateException If the plugin is not initialized
      */
+    @Deprecated
     public static SimpleEffects getInstance() {
         if(instance == null) {
             throw new IllegalStateException("Plugin is not initialized!");

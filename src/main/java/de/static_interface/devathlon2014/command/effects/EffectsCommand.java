@@ -15,9 +15,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.static_interface.devathlon2014.command;
+package de.static_interface.devathlon2014.command.effects;
 
 import de.static_interface.devathlon2014.SimpleEffects;
+import de.static_interface.devathlon2014.command.subcommand.SubCommandExecutor;
+import de.static_interface.devathlon2014.command.subcommand.SubCommandHandler;
 import de.static_interface.devathlon2014.effect.Effect;
 import de.static_interface.devathlon2014.effect.EffectHandler;
 import org.bukkit.ChatColor;
@@ -27,10 +29,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 public class EffectsCommand implements CommandExecutor {
 
     public static final String CMD_PREFIX = ChatColor.AQUA + "[SimpleEffects]" + ChatColor.RESET;
+
     private final SimpleEffects plugin;
 
     public EffectsCommand(SimpleEffects plugin) {
@@ -51,25 +55,27 @@ public class EffectsCommand implements CommandExecutor {
         Player player = (Player)sender;
         String action = args[0];
 
-        if(handleCommand(player, action)) {
+        String[] actionArgs = new String[0];
+        if(args.length > 1) {
+            actionArgs  = Arrays.copyOfRange(args, 1, args.length);
+        }
+
+
+        if(handleCommand(player, action, actionArgs)) {
             return true;
         }
 
-        String[] effectArgs = new String[0];
-        if(args.length > 1) {
-            effectArgs  = Arrays.copyOfRange(args, 1, args.length);
-        }
 
         Effect effect = EffectHandler.getEffectByName(action);
 
         if(effect == null) {
-            sendMessage(player, "Unbekannter Effect oder Command: " + action);
-            sendMessage(player, "Nutze /effect help für eine Liste der verfügbaren Befehle");
-            sendMessage(player, "Nutze /effect listeffects für eine Liste der verfügbaren Effekte");
+            sendMessage(player, ChatColor.RED + "Unbekannter Effect oder Command: " + action);
+            sendMessage(player, ChatColor.GOLD + "Nutze /effect help für eine Liste der verfügbaren Befehle");
+            sendMessage(player, ChatColor.GOLD + "Nutze /effect listeffects für eine Liste der verfügbaren Effekte");
             return true;
         }
 
-        if(!effect.startEffect(player, effectArgs, plugin)) {
+        if(!effect.startEffect(player, actionArgs, plugin)) {
             sendMessage(player, effect.getUsage());
         }
         return true;
@@ -85,15 +91,14 @@ public class EffectsCommand implements CommandExecutor {
      * @param player Command executor
      * @return True if the given String was a command and has been executed
      */
-    private boolean handleCommand(Player player, String cmd) {
-        switch(cmd.toLowerCase()) {
-            case "help":
-                //Todo
-                return true;
+    private boolean handleCommand(Player player, String cmd, String[] args) {
+        Collection<SubCommandExecutor> subCommands = SubCommandHandler.getSubCommands(this);
 
-            case "listeffects":
-                //Todo
+        for(SubCommandExecutor executor : subCommands) {
+            if(executor.getInternalName().equals(cmd)) {
+                executor.onCommand(player, args);
                 return true;
+            }
         }
         return false;
     }

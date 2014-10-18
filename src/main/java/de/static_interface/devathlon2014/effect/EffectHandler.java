@@ -17,14 +17,25 @@
 
 package de.static_interface.devathlon2014.effect;
 
+import de.static_interface.devathlon2014.SimpleEffects;
+import de.static_interface.devathlon2014.command.subcommand.SubCommandExecutor;
+import de.static_interface.devathlon2014.command.subcommand.SubCommandHandler;
+
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EffectHandler {
+    private static HashMap<String, Effect> effects = new HashMap<>();
 
-    public static HashMap<String, Effect> effects = new HashMap<>();
+    /**
+     * @return {@link Collection<SubCommandExecutor>} instance of all effects
+     */
+    public static Collection<Effect> getEffects() {
+        return effects.values();
+    }
 
     /**
      * Get an effect by its name
@@ -41,8 +52,9 @@ public class EffectHandler {
      * @param effect Effect to be registered
      */
     public static void registerEffect(@Nonnull Effect effect) {
-        if(effect.getName().equalsIgnoreCase("help") || effect.getName().equalsIgnoreCase("listeffects")) {
-            throw new IllegalArgumentException("Effect name \"" +  effect.getName()+ "\" is reserved!");
+        for(SubCommandExecutor cmd : SubCommandHandler.getSubCommands(SimpleEffects.getInstance().getEffectsCommand())) {
+            if(cmd.getInternalName().equalsIgnoreCase(effect.getName()))
+                throw new IllegalArgumentException("Effect name \"" +  effect.getName()+ "\" is already registered as command!");
         }
 
         if(effects.get(effect.getName()) != null || effects.values().contains(effect)) {
